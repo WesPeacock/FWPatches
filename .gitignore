@@ -2,3 +2,5 @@
 *.idx
 *.bak
 *~
+
+test/

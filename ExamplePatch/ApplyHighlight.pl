@@ -36,7 +36,7 @@ for my $var (@varlist) {
 
 my $examplefront = qq{<ExampleText><AStr ws="qaa"><Run ws="qaa">};
 my $exampleend = qq{</Run></AStr></ExampleText>};
-next if $line !~ m/(\Q$examplefront\E)(.*)(\Q$exampleend\E)/;
+next if $line !~ m/(\Q$examplefront\E)(.+)(\Q$exampleend\E)/;
 my $examplenode=$MATCH;
 say STDERR "Examplenode:$examplenode" if $debug;
 

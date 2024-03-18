@@ -28,7 +28,7 @@ say STDERR "headword:$lextext" if $debug;
 my $varfront = qq{<LexEntVarText><AUni ws="$ws">};
 my $varend = qq{</AUni></LexEntVarText>};
 my @varlist = ();
-while ($line =~ m/(\Q$varfront\E)(.*)(\Q$varend\E)/g) {
+while ($line =~ m/(\Q$varfront\E)(.*?)(\Q$varend\E)/g) {
 	push (@varlist, $2);
 	}
 for my $var (@varlist) {

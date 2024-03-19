@@ -25,6 +25,13 @@ next if $line !~ m/(\Q$lexfront\E)(.*)(\Q$lexend\E)/;
 my $lextext = $2;
 say STDERR "headword:$lextext" if $debug;
 
+my $citfront = qq{<LexCitationText><AUni ws="$ws">};
+my $citend = qq{</AUni></LexCitationText>};
+next if $line !~ m/(\Q$citfront\E)(.*)(\Q$citend\E)/;
+my $cittext = $2;
+say STDERR "headword:$lextext" if $debug;
+
+
 my $varfront = qq{<LexEntVarText><AUni ws="$ws">};
 my $varend = qq{</AUni></LexEntVarText>};
 my @varlist = ();
@@ -41,7 +48,7 @@ next if $line !~ m/(\Q$examplefront\E)(.+)(\Q$exampleend\E)/;
 my $examplenode=$MATCH;
 say STDERR "Examplenode:$examplenode" if $debug;
 
-for my $text ($lextext, @varlist) {
+for my $text ($cittext, $lextext, @varlist) {
 	say STDERR "look for:$text" if $debug;
 	if (($examplefront =~ m/$text/) || ($exampleend =~ m/$text/)) {
 		say STDERR qq{Found $text in XML code "$examplefront" or "$exampleend" ignoring entry on line number $INPUT_LINE_NUMBER};

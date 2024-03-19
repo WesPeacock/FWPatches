@@ -44,6 +44,9 @@ say STDERR "ExampleTextXpath:$ExampleTextXpath";
 #my $FormTextXpath = q#./Form/AUni[@ws="# . $languageEncoding . q#"]/text()#;
 my $FormTextXpath = q#./Form/AUni[@ws="# . $languageEncoding . q#"]#;
 say STDERR "FormTextXpath:$FormTextXpath";
+my $CitTextXpath = q#./CitationForm/AUni[@ws="# . $languageEncoding . q#"]#;
+say STDERR "CitTextXpath:$CitTextXpath";
+
 
 say STDERR "Reading fwdata file: $infilename";
 say '<?xml version="1.0" encoding="utf-8"?><LexExamplePatchSet>';
@@ -99,14 +102,19 @@ foreach my $seExamplert ($fwdatatree->findnodes(q#//rt[@class='LexExampleSentenc
 	my ($seOwnerrt) = traverseuptoclass($seExamplert, 'LexEntry');
 
 	my ($lexentform, $lexentguid)=lexentFormAndGuid($seOwnerrt) ;
-	
+
+	my $citform = $lexentform; # use the Lexeme form by default
+	if ($rthash{$lexentguid}->findnodes($CitTextXpath)) {
+		$citform =  ($rthash{$lexentguid}->findnodes($CitTextXpath))[0]->toString;
+		}
+
 	my $VarTexts ="";
 	foreach my $VarRefguid (@{$varefhash{$lexentguid} }) {
 		my ($VarEntrt) = traverseuptoclass( $rthash{$VarRefguid}, 'LexEntry');
 		my ($varform, $varguid)=lexentFormAndGuid($VarEntrt) ;
 		$VarTexts .= "<LexEntVarText>$varform</LexEntVarText>";
 		}
-	say  "<LexExamplePatch exampleguid=\"$exampleguid\"><LexEntText>$lexentform</LexEntText>$VarTexts<ExampleText>$exampletext</ExampleText></LexExamplePatch>" ;
+	say  "<LexExamplePatch exampleguid=\"$exampleguid\"><LexEntText>$lexentform</LexEntText><LexCitationText>$citform</LexCitationText>$VarTexts<ExampleText>$exampletext</ExampleText></LexExamplePatch>" ;
 
 	$reccount++;
 	#if ($reccount >= 100) {last};

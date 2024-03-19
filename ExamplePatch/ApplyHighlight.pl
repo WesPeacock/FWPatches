@@ -43,6 +43,10 @@ say STDERR "Examplenode:$examplenode" if $debug;
 
 for my $text ($lextext, @varlist) {
 	say STDERR "look for:$text" if $debug;
+	if (($examplefront =~ m/$text/) || ($exampleend =~ m/$text/)) {
+		say STDERR qq{Found $text in XML code "$examplefront" or "$exampleend" ignoring entry on line number $INPUT_LINE_NUMBER};
+		last;
+		}
 	if ($examplenode =~ s/$text/$highlightfront$text$highlightend/g) {
 		$line =~ s/(\Q$examplefront\E)(.*)(\Q$exampleend\E)/$examplenode/;
 		last;

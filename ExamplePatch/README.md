@@ -1,13 +1,39 @@
 #### FWExampleExtract.pl & FWExampleEdit.pl
-This pair of programs extract Example Sentences from an fwdata file. It creates lines that can be edited and applied as patches to the fwdata file. Along with the Example data, it also gives the headword and variants of the entry.
-The edit program applies the patch file back onto the fwdata file.
+This pair of programs extract Example Sentences from an fwdata file. It creates lines that can be edited and applied as patches to the fwdata file.
+As well as the Example data, it also gives the headword and variants of the entry.
+The edit program applies the patch file back onto the fwdata file, changing the Example text only.
 
 Use them like this:
 - build a patch file with FWExampleExtract.pl
 - select the patches you're interested in
-- use FLEx to edit those Example sentences
+- If there are not to many, you can manually use FLEx to edit those Example sentences
 - or massage the patch file to do simple edits and apply them with the FWExampleEdit.pl
 
+Here's a sample patch entry:
+````XML
+<LexExamplePatch exampleguid="00368406-ffc3-439f-852a-6a4c23671f85">
+<LexEntText>
+	<AUni ws="jii">dabiilé</AUni>
+</LexEntText>
+<LexCitationText>
+</LexCitationText>
+<LexEntVarText>
+	<AUni ws="jii">dabiilaa</AUni>
+</LexEntVarText>
+<LexEntVarText>
+	<AUni ws="jii">dabiilidhé</AUni>
+</LexEntVarText>
+<ExampleText>
+	<AStr ws="jii">
+		<Run ws="jii">dabiilaa okon il omogné</Run>
+	</AStr>
+</ExampleText>
+</LexExamplePatch>
+````
+In the patch file, the entire patch entry is on one line to make it easier to do edits. For example a perl one-liner can then do a regular expression substitute on each line of the patch file.
+
+The FWExampleEdit.pl script finds the \<rt\> with *class* attribute = "LexExampleSentence" and *guid* attribute is the same as the exampleguid in the patch node.
+In that \<rt\>, the rtext in the \<Example\> sub-node will be changed to the text in \<ExampleText\> of the current patch.
 ##### Task 1:
 Change all Example Sentences with *Strong* styled text to *Headword in Example* style. Note that the patch program that the FWExampleEdit.pl reads must be an XML file. That is why we head/tail the first/last lines of the patch file built by FWExampleExtract.pl
 
@@ -34,15 +60,4 @@ This script shouldn't be a one-liner and the complex regex should maybe use a /x
 ```
 ##### Task 3:
 Same as Task 2 checking Variants &ndash; this is more complicated because two or more variants can occur so it can't be done by a simple regex backrefence (\1) in the search.
-
-It will be something like:
-- Put tee in the Task 2 command line after LexEntText search.
-  - (If it has a headword don't check for variants)
-- The perl script &ndash; get all the variants into an array
-```perl
-@variants = ($_ =~ /(?<=\<LexEntVarText><AUni ws="nko">)([^<]+)/g)
-```
-```
-foreach search the Example sentence, break on match
-if !match, print the line
-```
+The perl script *ApplyHIghlight.pl* makes the necessary changes to the patch file.

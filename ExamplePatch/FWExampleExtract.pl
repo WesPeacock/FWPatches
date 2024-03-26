@@ -46,7 +46,7 @@ my $FormTextXpath = q#./Form/AUni[@ws="# . $languageEncoding . q#"]#;
 say STDERR "FormTextXpath:$FormTextXpath";
 my $CitTextXpath = q#./CitationForm/AUni[@ws="# . $languageEncoding . q#"]#;
 say STDERR "CitTextXpath:$CitTextXpath";
-
+my $AllomorphsXpath = q#./AlternateForms/objsur/@guid#;
 
 say STDERR "Reading fwdata file: $infilename";
 say '<?xml version="1.0" encoding="utf-8"?><LexExamplePatchSet>';
@@ -66,24 +66,6 @@ foreach my $rt ($fwdatatree->findnodes(q#//rt#)) {
 			}
 	}
 
-=pod
-my $size = keys %varefhash;
-say STDERR "$size entries with variants";
-
-my ($lexentguid) ="dcc581be-5494-4856-b18f-8a280d32e093"; # anyɔ "two" test
-my $VarTexts ="";
-foreach my $VarRefrt (@{$varefhash{$lexentguid} }) {
-#	my $x = ($VarRefrt->findnodes('.'))[0]->toString;
-#	say $x;
-	my ($Varrt) = traverseuptoclass($VarRefrt, 'LexEntry');
-	my ($varform, $varguid)=lexentFormAndGuid($Varrt) ;
-	$VarTexts .= "<LexEntVarText>$varform</LexEntVarText>";
-	}
-say $VarTexts;
-
-
-die;
-=cut
 my $reccount = 0;
 foreach my $seExamplert ($fwdatatree->findnodes(q#//rt[@class='LexExampleSentence']#)) {
 	# say "Example:", $seExamplert;
@@ -114,7 +96,17 @@ foreach my $seExamplert ($fwdatatree->findnodes(q#//rt[@class='LexExampleSentenc
 		my ($varform, $varguid)=lexentFormAndGuid($VarEntrt) ;
 		$VarTexts .= "<LexEntVarText>$varform</LexEntVarText>";
 		}
-	say  "<LexExamplePatch exampleguid=\"$exampleguid\"><LexEntText>$lexentform</LexEntText><LexCitationText>$citform</LexCitationText>$VarTexts<ExampleText>$exampletext</ExampleText></LexExamplePatch>" ;
+
+	my $AlloTexts = "";
+	# findvalue of multiple nodes concantenates the values (guids)
+	# break them into an array and process the array
+	#	my @alloguids = ($rthash{$lexentguid}->findvalue('./AlternateForms/objsur/@guid')=~ /.{36}/g) ;
+	foreach ($rthash{$lexentguid}->findvalue('./AlternateForms/objsur/@guid') =~ /.{36}/g) {
+		my $alloform =  ($rthash{$_}->findnodes($FormTextXpath))[0]->toString;
+		$AlloTexts .= "<LexAlloText>$alloform</LexAlloText>";
+		}
+
+	say  "<LexExamplePatch exampleguid=\"$exampleguid\"><LexEntText>$lexentform</LexEntText><LexCitationText>$citform</LexCitationText>$VarTexts$AlloTexts<ExampleText>$exampletext</ExampleText></LexExamplePatch>" ;
 
 	$reccount++;
 	#if ($reccount >= 100) {last};

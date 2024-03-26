@@ -42,13 +42,23 @@ for my $var (@varlist) {
 	say STDERR "variants:$var" if $debug;
 	}
 
+my $allofront = qq{<LexAlloText><AUni ws="$ws">};
+my $alloend = qq{</AUni></LexAlloText>};
+my @allolist = ();
+while ($line =~ m/(\Q$allofront\E)(.*?)(\Q$alloend\E)/g) {
+	push (@allolist, $2);
+	}
+for my $allo (@allolist) {
+	say STDERR "allophones:$allo" if $debug;
+	}
+
 my $examplefront = qq{<ExampleText><AStr ws="$ws"><Run ws="$ws">};
 my $exampleend = qq{</Run></AStr></ExampleText>};
 next if $line !~ m/(\Q$examplefront\E)(.+)(\Q$exampleend\E)/;
 my $examplenode=$MATCH;
 say STDERR "Examplenode:$examplenode" if $debug;
 
-for my $text ($cittext, $lextext, @varlist) {
+for my $text ($cittext, $lextext, @varlist, @allolist) {
 	say STDERR "look for:$text" if $debug;
 	if (($examplefront =~ m/$text/) || ($exampleend =~ m/$text/)) {
 		say STDERR qq{Found $text in XML code "$examplefront" or "$exampleend" ignoring entry on line number $INPUT_LINE_NUMBER};

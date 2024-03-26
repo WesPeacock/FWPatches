@@ -4,10 +4,10 @@ As well as the Example data, it also gives the headword and variants of the entr
 The edit program applies the patch file back onto the fwdata file, changing the Example text only.
 
 Use them like this:
-- build a patch file with FWExampleExtract.pl
+- build a patch file with *FWExampleExtract.pl*
 - select the patches you're interested in
 - If there are not to many, you can manually use FLEx to edit those Example sentences
-- or massage the patch file to do simple edits and apply them with the FWExampleEdit.pl
+- or massage the patch file to do simple edits and apply them with the *FWExampleEdit.pl*
 
 Here's a sample patch entry:
 ````XML
@@ -32,17 +32,17 @@ Here's a sample patch entry:
 ````
 In the patch file, the entire patch entry is on one line to make it easier to do edits. For example a perl one-liner can then do a regular expression substitute on each line of the patch file.
 
-The FWExampleEdit.pl script finds the \<rt\> with *class* attribute = "LexExampleSentence" and *guid* attribute is the same as the exampleguid in the patch node.
+The *FWExampleEdit.pl* script finds the \<rt\> with *class* attribute = "LexExampleSentence" and *guid* attribute is the same as the exampleguid in the patch node.
 In that \<rt\>, the rtext in the \<Example\> sub-node will be changed to the text in \<ExampleText\> of the current patch.
 ##### Task 1:
-Change all Example Sentences with *Strong* styled text to *Headword in Example* style. Note that the patch program that the FWExampleEdit.pl reads must be an XML file. That is why we head/tail the first/last lines of the patch file built by FWExampleExtract.pl
-
-	perl ./FWExampleExtract.pl >Nkonyafwdata.full.patch
-	head -1 Nkonyafwdata.full.patch >Nkonyafwdata.patch
-	grep 'namedStyle="Strong"' Nkonyafwdata.full.patch |perl -pe 's/namedStyle="Strong"/namedStyle="Headword in Example"/g;' >>Nkonyafwdata.patch
-	tail -1 Nkonyafwdata.full.patch >>Nkonyafwdata.patch
-	perl ./FWExampleEdit.pl
-
+Change all Example Sentences with *Strong* styled text to *Headword in Example* style. Note that the patch program that the *FWExampleEdit.pl* reads must be an XML file. That is why we head/tail the first/last lines of the patch file built by *FWExampleExtract.pl*
+```bash
+perl ./FWExampleExtract.pl >Nkonyafwdata.full.patch
+head -1 Nkonyafwdata.full.patch >Nkonyafwdata.patch
+grep 'namedStyle="Strong"' Nkonyafwdata.full.patch |perl -pe 's/namedStyle="Strong"/namedStyle="Headword in Example"/g;' >>Nkonyafwdata.patch
+tail -1 Nkonyafwdata.full.patch >>Nkonyafwdata.patch
+perl ./FWExampleEdit.pl
+```
 ##### Task 2:
 Extract all sentences where the Example sentence doesn't already have "Headword in Example" highlighting. From those sentences, find all the sentences where the Lexical headword doesn't appear exactly in the Example sentence. Display all those that start with the letters b-f (no c's). For simplicity of viewing, all XML markup on the sentence is deleted. This ruins the output for input into the ExampleEdit. 
 ```bash

@@ -7,12 +7,12 @@
 # Instead of running as a line by line script, it should use XML::LibXML to parse the patch file and process that.
 
 my $ws="qaa";
+my $highlightfront = qq{</Run><Run namedStyle="Headword-in-Example" ws="$ws">};
+my $highlightend = qq{</Run><Run ws="$ws">};
+
 my $debug=0;
 my $line = $_;
 say STDERR "Record before:$line" if $debug;
-
-my $highlightfront = qq{</Run><Run namedStyle="Headword-in-Example" ws="$ws">};
-my $highlightend = qq{</Run><Run ws="$ws">};
 
 if (m/\Q$highlightfront\E/) {
 	say STDERR "Record contains highlighted text already:$line";

@@ -1,12 +1,14 @@
-# Add the fwdata file name(s) to the ini file and then run:
+# Add the fwdata file name(s) and the Ethnologue code (e.g.xxx) to the ini file and then run:
 # perl ./FWExampleExtract.pl >beforehiglight.patch.xml
-# perl -pf ./ApplyHighlight.pl <beforehiglight.patch.xml >afterhighlight.patch.xml
+# ws=xxx perl -pf ./ApplyHighlight.pl <beforehiglight.patch.xml >afterhighlight.patch.xml
 # perl ./FWExampleEdit.pl
 
 # Enhancements:
 # Instead of running as a line by line script, it should use XML::LibXML to parse the patch file and process that.
 
-my $ws="qaa";
+# use qaa for the language code if the environment variable doesnt exist
+my $ws = $ENV{ws} ? $ENV{ws} : "qaa";
+say STDERR "Language Code:$ws" if ($NR ==1);
 my $highlightfront = qq{</Run><Run namedStyle="Headword-in-Example" ws="$ws">};
 my $highlightend = qq{</Run><Run ws="$ws">};
 
@@ -23,13 +25,13 @@ my $lexfront = qq{<LexEntText><AUni ws="$ws">};
 my $lexend = qq{</AUni></LexEntText>};
 next if $line !~ m/(\Q$lexfront\E)(.*)(\Q$lexend\E)/;
 my $lextext = $2;
-say STDERR "headword:$lextext" if $debug;
+say STDERR "lexeme:$lextext" if $debug;
 
 my $citfront = qq{<LexCitationText><AUni ws="$ws">};
 my $citend = qq{</AUni></LexCitationText>};
 next if $line !~ m/(\Q$citfront\E)(.*)(\Q$citend\E)/;
 my $cittext = $2;
-say STDERR "headword:$lextext" if $debug;
+say STDERR "citation:$cittext" if $debug;
 
 
 my $varfront = qq{<LexEntVarText><AUni ws="$ws">};
@@ -59,16 +61,19 @@ my $examplenode=$MATCH;
 say STDERR "Examplenode:$examplenode" if $debug;
 
 for my $text ($cittext, $lextext, @varlist, @allolist) {
-	say STDERR "look for:$text" if $debug;
 	if (($examplefront =~ m/$text/) || ($exampleend =~ m/$text/)) {
-		say STDERR qq{Found $text in XML code "$examplefront" or "$exampleend" ignoring entry on line number $INPUT_LINE_NUMBER};
-		last;
+		say STDERR qq{Found "$text" in XML code "$examplefront" or "$exampleend" ignoring on line number $INPUT_LINE_NUMBER};
+		next;
 		}
-	if ($examplenode =~ s/$text/$highlightfront$text$highlightend/g) {
+	say STDERR qq{look for:"$text" in "$examplenode"} if $debug;
+	if ($examplenode =~ m/$text/) {
+		$examplenode =~ s/$text/$highlightfront$text$highlightend/g;
 		$line =~ s/(\Q$examplefront\E)(.*)(\Q$exampleend\E)/$examplenode/;
+		say STDERR qq{Found and highlighted "$text" in "$examplenode"} if $debug;
 		last;
 		}
 	}
 $_=$line;
+say STDERR "Record after:$line" if $debug;
 say STDERR "" if $debug;
 say STDERR "" if $debug;

@@ -40,7 +40,7 @@ use Config::Tiny;
  # Definitionws=nko
  # infilename=Nkonya.fwdata
  # outfilename=Nkonya.1.fwdata
- # patchfilename=Nkonyafwdata.patch
+ # patchfilename=Nkonyafwdata.patch.xml
  # patchtag=ltp
  # deftexttag=tt
  # lexsenseguidtag=lsguid

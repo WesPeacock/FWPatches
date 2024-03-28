@@ -20,7 +20,7 @@ use Config::Tiny;
  # Examplews=nko
  # infilename=Nkonya.fwdata
  # outfilename=Nkonya.1.fwdata
- # patchfilename=Nkonyafwdata.patch
+ # patchfilename=Nkonyafwdata.patch.xml
 
  my $configfile = 'FWExamples.ini';
 

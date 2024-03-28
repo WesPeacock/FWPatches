@@ -1,6 +1,6 @@
 # Add the fwdata file name(s) to the ini file and then run:
-# perl ./FWExampleExtract.pl >beforehiglight.patch
-# perl -pf ./ApplyHighlight.pl <beforehiglight.patch >afterhighlight.patch
+# perl ./FWExampleExtract.pl >beforehiglight.patch.xml
+# perl -pf ./ApplyHighlight.pl <beforehiglight.patch.xml >afterhighlight.patch.xml
 # perl ./FWExampleEdit.pl
 
 # Enhancements:

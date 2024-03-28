@@ -48,16 +48,16 @@ In that \<rt\>, the rtext in the \<Example\> sub-node will be changed to the tex
 ##### Task 1:
 Change all Example Sentences with *Strong* styled text to *Headword in Example* style. Note that the patch program that the *FWExampleEdit.pl* reads must be an XML file. That is why we head/tail the first/last lines of the patch file built by *FWExampleExtract.pl*
 ```bash
-perl ./FWExampleExtract.pl >Nkonyafwdata.full.patch
-head -1 Nkonyafwdata.full.patch >Nkonyafwdata.patch
-grep 'namedStyle="Strong"' Nkonyafwdata.full.patch |perl -pe 's/namedStyle="Strong"/namedStyle="Headword in Example"/g;' >>Nkonyafwdata.patch
-tail -1 Nkonyafwdata.full.patch >>Nkonyafwdata.patch
+perl ./FWExampleExtract.pl >Nkonyafwdata.full.patch.xml
+head -1 Nkonyafwdata.full.patch >Nkonyafwdata.patch.xml
+grep 'namedStyle="Strong"' Nkonyafwdata.full.patch.xml |perl -pe 's/namedStyle="Strong"/namedStyle="Headword in Example"/g;' >>Nkonyafwdata.patch.xml
+tail -1 Nkonyafwdata.full.patch.xml >>Nkonyafwdata.patch.xml
 perl ./FWExampleEdit.pl
 ```
 ##### Task 2:
 Extract all sentences where the Example sentence doesn't already have "Headword in Example" highlighting. From those sentences, find all the sentences where the Lexical headword doesn't appear exactly in the Example sentence. Display all those that start with the letters b-f (no c's). For simplicity of viewing, all XML markup on the sentence is deleted. This ruins the output for input into the ExampleEdit. 
 ```bash
-grep -v Headwo Nkonyafwdata.full.patch |perl -ne 'if (!/(?<=\<LexEntText><AUni ws="nko">)([^<]+)<.*?\1/i) { print  }'  |perl -pe 's/<(.)?(LexExamplePatch|AUni|AStr|Run)[^>]*>//g;' |sort |grep 'LexEntText>[bdeɛf]' |less
+grep -v Headwo Nkonyafwdata.full.patch.xml |perl -ne 'if (!/(?<=\<LexEntText><AUni ws="nko">)([^<]+)<.*?\1/i) { print  }'  |perl -pe 's/<(.)?(LexExamplePatch|AUni|AStr|Run)[^>]*>//g;' |sort |grep 'LexEntText>[bdeɛf]' |less
 ```
 Bug: the match on \1 should only be inside *\<ExampleText\>* The above matches Headwords that are subsets of Variant texts.
 

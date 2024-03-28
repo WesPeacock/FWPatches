@@ -38,7 +38,7 @@ use Config::Tiny;
  # Translationws=nko
  # infilename=Nkonya.fwdata
  # outfilename=Nkonya.1.fwdata
- # patchfilename=Nkonyafwdata.patch
+ # patchfilename=Nkonyafwdata.patch.xml
  # patchtag=ltp
  # transtexttag=tt
  # transguid=tguid

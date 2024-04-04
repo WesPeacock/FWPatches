@@ -106,7 +106,7 @@ foreach my $seExamplert ($fwdatatree->findnodes(q#//rt[@class='LexExampleSentenc
 		$AlloTexts .= "<LexAlloText>$alloform</LexAlloText>";
 		}
 
-	say  "<LexExamplePatch exampleguid=\"$exampleguid\"><LexEntText>$lexentform</LexEntText><LexCitationText>$citform</LexCitationText>$VarTexts$AlloTexts<ExampleText>$exampletext</ExampleText></LexExamplePatch>" ;
+	say  "<LexExamplePatch exampleguid=\"$exampleguid\"><ExampleText>$exampletext</ExampleText><LexEntText>$lexentform</LexEntText><LexCitationText>$citform</LexCitationText>$VarTexts$AlloTexts</LexExamplePatch>" ;
 
 	$reccount++;
 	#if ($reccount >= 100) {last};

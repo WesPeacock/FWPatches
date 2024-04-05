@@ -40,6 +40,7 @@ my @varlist = ();
 while ($line =~ m/(\Q$varfront\E)(.*?)(\Q$varend\E)/g) {
 	push (@varlist, $2);
 	}
+@varlist = sort { length($b) <=> length($a) } @varlist; # sort longest first
 for my $var (@varlist) {
 	say STDERR "variants:$var" if $debug;
 	}
@@ -50,6 +51,7 @@ my @allolist = ();
 while ($line =~ m/(\Q$allofront\E)(.*?)(\Q$alloend\E)/g) {
 	push (@allolist, $2);
 	}
+@allolist = sort { length($b) <=> length($a) } @allolist; # sort longest first
 for my $allo (@allolist) {
 	say STDERR "allophones:$allo" if $debug;
 	}

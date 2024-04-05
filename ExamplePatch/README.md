@@ -22,6 +22,11 @@ Currently, following fields are added to the patch file:
 Here's a sample patch entry:
 ````XML
 <LexExamplePatch exampleguid="3fff38c2-5258-4ece-b93c-039d2db3368e">
+	<ExampleText>
+		<AStr ws="jii">
+			<Run ws="jii">ané walaalkis ba'ané</Run>
+		</AStr>
+	</ExampleText>
 	<LexEntText>
 		<AUni ws="jii">ba'adh</AUni>
 	</LexEntText>
@@ -34,11 +39,6 @@ Here's a sample patch entry:
 	<LexAlloText>
 		<AUni ws="jii">ba'a</AUni>
 	</LexAlloText>
-	<ExampleText>
-		<AStr ws="jii">
-			<Run ws="jii">ané walaalkis ba'ané</Run>
-		</AStr>
-	</ExampleText>
 </LexExamplePatch>
 ````
 In the patch file, the entire patch entry is on one line to make it easier to do edits. For example a perl one-liner can then do a regular expression substitute on each line of the patch file.

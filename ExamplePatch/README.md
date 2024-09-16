@@ -92,3 +92,5 @@ They will be ignored and an error message will be written to the STDERR stream.
 Note that affixes are handled as text with no context. For example with '**-er**', the highlighted version of 'eraser' would be '**er**as**er**'.
 
 If the Example sentence text has XML code (e.g. other highlighting) inside a match, it will not find that match.
+
+*xml2htmlForPatches.xsl*, *prehtml.pl*, and *posthtml.pl*  are helper scripts for displaying Example sentences together with the head word, allophones and variants.

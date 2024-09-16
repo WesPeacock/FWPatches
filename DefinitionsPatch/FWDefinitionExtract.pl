@@ -32,7 +32,7 @@ use Config::Tiny;
  # Vernacularws=nko
  # infilename=Nkonya.fwdata
  # patchtag=ltp
- # deftexttag=tt
+ # deftexttag=df
  # lexsenseguidtag=lsguid
  # lexenttag=let
  #
@@ -42,7 +42,7 @@ use Config::Tiny;
  # outfilename=Nkonya.1.fwdata
  # patchfilename=Nkonyafwdata.patch.xml
  # patchtag=ltp
- # deftexttag=tt
+ # deftexttag=df
  # lexsenseguidtag=lsguid
  # lexenttag=let
 

@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-my $USAGE = "Usage: $0 [--inifile inifile.ini] [--section section] [--debug] [file.sfm]";
+my $USAGE = "Usage: $0 [--inifile inifile.ini] [--section section] [--debug] >patch_file.xml";
 # perl ./FWTranslationExtract.pl
 #reads a Fieldworks database. For each Translation:
 #    finds the GUID & Text of the Translation

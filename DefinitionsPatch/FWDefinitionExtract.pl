@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-my $USAGE = "Usage: $0 [--inifile inifile.ini] [--section section] [--debug] [file.sfm]";
+my $USAGE = "Usage: $0 [--inifile inifile.ini] [--section section] [--debug] >patch-before.xml";
 # perl ./FWDefinitionExtract.pl
 #reads a Fieldworks database. For each Definition:
 #    finds the GUID & Text of the Definition

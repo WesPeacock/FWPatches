@@ -127,7 +127,7 @@ foreach my $seLexSensert ($fwdatatree->findnodes(q#//rt[@class='LexSense']#)) {
 			"<$deftexttag>$Definitiontext</$deftexttag>" .
 			"<$lexenttag>$lexentform</$lexenttag>" .
 			"<$lexsenseguidtag>$LexSenseguid</$lexsenseguidtag>" .
-			"</$patchtag>" ;
+			"</$patchtag>"  if $Definitiontext;
 
 	$reccount++;
 	#if ($reccount >= 100) {last};

@@ -46,16 +46,16 @@ In the patch file, the entire patch entry is on one line to make it easier to do
 The *FWExampleEdit.pl* script finds the \<rt\> with *class* attribute = "LexExampleSentence" and *guid* attribute is the same as the exampleguid in the patch node.
 In that \<rt\>, the rtext in the \<Example\> sub-node will be changed to the text in \<ExampleText\> of the current patch.
 ##### Task 1:
-Change all Example Sentences with *Strong* styled text to *Headword in Example* style. Note that the patch program that the *FWExampleEdit.pl* reads must be an XML file. That is why we head/tail the first/last lines of the patch file built by *FWExampleExtract.pl*
+Change all Example Sentences with *Strong* styled text to *Headword-in-Example* style. Note that the patch program that the *FWExampleEdit.pl* reads must be an XML file. That is why we head/tail the first/last lines of the patch file built by *FWExampleExtract.pl*
 ```bash
 perl ./FWExampleExtract.pl >Nkonyafwdata.full.patch.xml
 head -1 Nkonyafwdata.full.patch >Nkonyafwdata.patch.xml
-grep 'namedStyle="Strong"' Nkonyafwdata.full.patch.xml |perl -pe 's/namedStyle="Strong"/namedStyle="Headword in Example"/g;' >>Nkonyafwdata.patch.xml
+grep 'namedStyle="Strong"' Nkonyafwdata.full.patch.xml |perl -pe 's/namedStyle="Strong"/namedStyle="Headword-in-Example"/g;' >>Nkonyafwdata.patch.xml
 tail -1 Nkonyafwdata.full.patch.xml >>Nkonyafwdata.patch.xml
 perl ./FWExampleEdit.pl
 ```
 ##### Task 2:
-Extract all sentences where the Example sentence doesn't already have "Headword in Example" highlighting. From those sentences, find all the sentences where the Lexical headword doesn't appear exactly in the Example sentence. Display all those that start with the letters b-f (no c's). For simplicity of viewing, all XML markup on the sentence is deleted. This ruins the output for input into the ExampleEdit. 
+Extract all sentences where the Example sentence doesn't already have "Headword-in-Example" highlighting. From those sentences, find all the sentences where the Lexical headword doesn't appear exactly in the Example sentence. Display all those that start with the letters b-f (no c's). For simplicity of viewing, all XML markup on the sentence is deleted. This ruins the output for input into the ExampleEdit. 
 ```bash
 grep -v Headwo Nkonyafwdata.full.patch.xml |perl -ne 'if (!/(?<=\<LexEntText><AUni ws="nko">)([^<]+)<.*?\1/i) { print  }'  |perl -pe 's/<(.)?(LexExamplePatch|AUni|AStr|Run)[^>]*>//g;' |sort |grep 'LexEntText>[bdeɛf]' |less
 ```

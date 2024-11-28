@@ -63,13 +63,13 @@ my $examplenode=$MATCH;
 say STDERR "Examplenode:$examplenode" if $debug;
 
 for my $text ($cittext, $lextext, @varlist, @allolist) {
-	if (($examplefront =~ m/$text/) || ($exampleend =~ m/$text/)) {
+	if (($examplefront =~ m/$text/i) || ($exampleend =~ m/$text/i)) {
 		say STDERR qq{Found "$text" in XML code "$examplefront" or "$exampleend" ignoring on line number $INPUT_LINE_NUMBER};
 		next;
 		}
 	say STDERR qq{look for:"$text" in "$examplenode"} if $debug;
-	if ($examplenode =~ m/$text/) {
-		$examplenode =~ s/$text/$highlightfront$text$highlightend/g;
+	if ($examplenode =~ m/$text/i) {
+		$examplenode =~ s/$text/$highlightfront$MATCH$highlightend/gi;
 		$line =~ s/(\Q$examplefront\E)(.*)(\Q$exampleend\E)/$examplenode/;
 		say STDERR qq{Found and highlighted "$text" in "$examplenode"} if $debug;
 		last;
